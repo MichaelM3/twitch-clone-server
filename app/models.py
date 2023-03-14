@@ -16,8 +16,8 @@ class User(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     sent_messages = relationship("Message", back_populates="sender")
-    channel = relationship("Channel", back_populates="owner", lazy="dynamic", cascade="all, delete")
-    follows = relationship("Follower", back_populates="user")
+    channel = relationship("Channel", back_populates="owner", cascade="all, delete")
+    follows = relationship("Follow", back_populates="user")
 
 class Channel(Base):
     __tablename__ = "channels"
@@ -29,7 +29,7 @@ class Channel(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    owner  = relationship("User", back_populates="channel", lazy="dynamic")
+    owner  = relationship("User", back_populates="channel")
     followers = relationship("Follow", back_populates="channel", cascade="all, delete")
     streams = relationship("Stream", back_populates="channel", cascade="all, delete")
 
@@ -79,3 +79,5 @@ class Category(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False) 
     poster = Column(String, nullable=True)
+
+    streams = relationship("Stream", back_populates="category")
