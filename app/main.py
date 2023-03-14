@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from . import models, config
 from .database import engine
-from .routes import user
+from .routes import user, auth
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -26,6 +26,7 @@ def get_settings():
     return config.settings
 
 app.include_router(user.router)
+app.include_router(auth.router)
 
 @app.get("/")
 def index():
