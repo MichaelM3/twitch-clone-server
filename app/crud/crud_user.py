@@ -1,10 +1,10 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
-from ..schemas import auth_schema
+from ..schemas import user_schema
 from ..db.models import user_model
 from ..utils import hash
 
-def create_user(payload: auth_schema.Register, db: Session):
+def create_user(payload: user_schema.UserCreate, db: Session):
     hashed_password = hash(payload.password)
     db_user = user_model.User(username=payload.username, hashed_password=hashed_password, email=payload.email)
     db.add(db_user)
