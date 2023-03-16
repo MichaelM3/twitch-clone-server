@@ -5,8 +5,9 @@ from ..db.models import user_model
 from ..utils import hash
 
 def create_user(payload: user_schema.UserCreate, db: Session):
-    hashed_password = hash(payload.password)
-    db_user = user_model.User(username=payload.username, hashed_password=hashed_password, email=payload.email)
+    hashed_password = hash(payload.hashed_password)
+    payload.hashed_password = hashed_password
+    db_user = user_model.User(**payload.dict())
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
