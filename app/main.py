@@ -1,9 +1,10 @@
 from functools import lru_cache
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from . import models, config
-from .database import engine
+from .db import models
+from .db.database import engine
 from .routes import user, auth
+from . import config
 
 models.Base.metadata.create_all(bind=engine)
 
