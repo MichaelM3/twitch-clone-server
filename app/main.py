@@ -1,12 +1,8 @@
 from functools import lru_cache
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .db import models
-from .db.database import engine
-from .routes import user, auth
+from .routes import user_route, auth_route
 from . import config
-
-models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
@@ -26,8 +22,8 @@ app.add_middleware(
 def get_settings():
     return config.settings
 
-app.include_router(user.router)
-app.include_router(auth.router)
+app.include_router(user_route.router)
+app.include_router(auth_route.router)
 
 @app.get("/")
 def index():
