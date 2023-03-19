@@ -29,7 +29,8 @@ def update_user(id: int, payload: user_schema.UserUpdate, db: Session):
     if user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No user found with id: {id}")
 
-    user_query.update(payload.dict(exclude_unset=True), synchronize_session=False)
+    update_data = {getattr(user_model.User, k): v for k, v in payload.dict(exclude_unset=True).items()}
+    user_query.update(update_data, synchronize_session=False)
 
     db.commit()
 

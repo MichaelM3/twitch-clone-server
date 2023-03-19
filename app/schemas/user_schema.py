@@ -1,4 +1,3 @@
-from typing import Optional
 from pydantic import BaseModel
 
 class UserBase(BaseModel):
@@ -9,12 +8,12 @@ class UserCreate(UserBase):
     hashed_password: str
 
 class UserUpdate(BaseModel):
-    avatar: Optional[str] = None
-    is_creator: Optional[bool] = None
+    avatar: str | None = None
+    is_creator: bool | None = None
 
 class User(UserBase):
     id: int
-    avatar: Optional[str] = None
+    avatar: str | None = None
     is_creator: bool
 
     class Config:
