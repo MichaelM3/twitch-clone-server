@@ -8,6 +8,10 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     hashed_password: str
 
+class UserUpdate(BaseModel):
+    avatar: Optional[str] = None
+    is_creator: Optional[bool] = None
+
 class User(UserBase):
     id: int
     avatar: Optional[str] = None

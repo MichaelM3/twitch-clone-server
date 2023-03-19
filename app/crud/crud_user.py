@@ -22,3 +22,15 @@ def get_user(id: int, db: Session):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No user found with id: {id}")
     return user
 
+def update_user(id: int, payload: user_schema.UserUpdate, db: Session):
+    user_query = db.query(user_model.User).filter(user_model.User.id == id)
+    user = user_query.first()
+    
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No user found with id: {id}")
+
+    user_query.update(payload.dict(exclude_unset=True), synchronize_session=False)
+
+    db.commit()
+
+    return user
