@@ -1,6 +1,7 @@
 from functools import lru_cache
 from fastapi import FastAPI
-from .routes import user_route, auth_route
+
+from .routes import user_route, auth_route, channel_route
 from .config import config, cors
 
 app = FastAPI()
@@ -13,3 +14,4 @@ def get_settings():
 
 app.include_router(user_route.router)
 app.include_router(auth_route.router)
+app.include_router(channel_route.router)
