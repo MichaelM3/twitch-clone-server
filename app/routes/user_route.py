@@ -25,3 +25,7 @@ def read_user(id: int, db: Session = Depends(get_db)):
 @router.put("/{id}", response_model=user_schema.User)
 def update_user(id: int, payload: user_schema.UserUpdate, db: Session = Depends(get_db)):
     return crud_user.update_user(id, payload, db)
+
+@router.delete("/{id}")
+def destroy_user(id: int, db: Session = Depends(get_db)):
+    return crud_user.destroy_user(id, db)

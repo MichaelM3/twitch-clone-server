@@ -35,3 +35,12 @@ def update_user(id: int, payload: user_schema.UserUpdate, db: Session):
     db.commit()
 
     return user
+
+def destroy_user(id: int, db: Session):
+    user = db.query(user_model.User).filter(user_model.User.id == id)
+    if not user.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No user found with id: {id}")
+    user.delete(synchronize_session=False)
+    db.commit()
+    return "User was deleted"
+
