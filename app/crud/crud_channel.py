@@ -13,3 +13,10 @@ def get_channel(id: int, db: Session):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No channel found with id of {id}")
 
     return channel
+
+def create_channel(user_id: int, db: Session):
+    db_channel = channel_model.Channel(owner_id = user_id)
+    db.add(db_channel)
+    db.commit()
+    db.refresh(db_channel)
+    return db_channel

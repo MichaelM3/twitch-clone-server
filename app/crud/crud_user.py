@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from ..schemas import user_schema
 from ..db.models import user_model
 from ..utils import hash
+from .crud_channel import create_channel
 
 def create_user(payload: user_schema.UserCreate, db: Session):
     hashed_password = hash(payload.hashed_password)
@@ -28,6 +29,9 @@ def update_user(id: int, payload: user_schema.UserUpdate, db: Session):
     
     if user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No user found with id: {id}")
+
+    if payload.is_creator:
+        create_channel(id, db)
 
     update_data = {getattr(user_model.User, k): v for k, v in payload.dict(exclude_unset=True).items()}
     user_query.update(update_data, synchronize_session=False)
