@@ -13,3 +13,7 @@ router = APIRouter(
 @router.get("/", status_code=status.HTTP_200_OK, response_model=List[channel_schema.Channel])
 def read_channels(db: Session = Depends(get_db)):
     return crud_channel.get_channels(db)
+
+@router.get("/{id}", status_code=status.HTTP_200_OK, response_model=channel_schema.Channel)
+def read_channel(id: int, db: Session = Depends(get_db)):
+    return crud_channel.get_channel(id, db)
